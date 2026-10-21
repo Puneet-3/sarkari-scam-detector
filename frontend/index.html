@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#f6f7f4">
+    <title>Sarkari Scam Detector - Fake Government Scheme Classifier</title>
+    <meta name="description" content="Check Hindi, Hinglish and English scheme messages for suspicious patterns, with explicit uncertainty and independent verification when needed.">
+    <!-- Typography -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Chart.js CDN -->
+    <script async src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/static/css/styles.css">
+</head>
+<body>
+    <a class="skip-link" href="#main-workspace">Skip to workspace</a>
+    <svg class="svg-sprite" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <symbol id="i-shield" viewBox="0 0 24 24"><path d="m12 3 8 3v6c0 5-8 9-8 9s-8-4-8-9V6l8-3Z"/><path d="m8.5 12 2.5 2.5 4.5-5"/></symbol>
+        <symbol id="i-message" viewBox="0 0 24 24"><path d="M21 11.5a8.5 8.5 0 0 1-8.5 8.5H4l-2 2V11.5a9.5 9.5 0 0 1 19 0Z"/><path d="M7 9h9M7 13h6"/></symbol>
+        <symbol id="i-folder" viewBox="0 0 24 24"><path d="M3 7V5a2 2 0 0 1 2-2h5l3 4h6a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7Z"/><path d="M3 8h18"/></symbol>
+        <symbol id="i-chart" viewBox="0 0 24 24"><path d="M4 3v17h17M9 15v-4m5 4V6m5 9v-6"/></symbol>
+        <symbol id="i-book" viewBox="0 0 24 24"><path d="M12 5v16M3 4c3-1 6-1 9 1 3-2 6-2 9-1v15c-3-1-6-1-9 2-3-3-6-3-9-2V4Z"/></symbol>
+        <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M4 12h16m-6-6 6 6-6 6"/></symbol>
+        <symbol id="i-lock" viewBox="0 0 24 24"><rect x="5" y="10" width="14" height="11" rx="3"/><path d="M8 10V7a4 4 0 0 1 8 0v3m-4 5v2"/></symbol>
+        <symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 11v6m0-10v.2"/></symbol>
+        <symbol id="i-upload" viewBox="0 0 24 24"><path d="M12 16V3m-5 5 5-5 5 5M4 15v5a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-5"/></symbol>
+        <symbol id="i-spark" viewBox="0 0 24 24"><path d="m12 3 2.5 6.5L21 12l-6.5 2.5L12 21l-2.5-6.5L3 12l6.5-2.5L12 3Z"/></symbol>
+        <symbol id="i-link" viewBox="0 0 24 24"><path d="m10 14 4-4m-6 6-1 1a4.2 4.2 0 0 1-6-6l4-4a4.2 4.2 0 0 1 6 0m2 2 1-1a4.2 4.2 0 0 1 6 6l-4 4a4.2 4.2 0 0 1-6 0"/></symbol>
+        <symbol id="i-coins" viewBox="0 0 24 24"><circle cx="9" cy="9" r="6"/><path d="M15 7a7 7 0 1 1-8 8m0-8h4m-4 3h3m-1-3v6"/></symbol>
+        <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></symbol>
+    </svg>
+    <div class="dashboard-container">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo-icon"><svg class="icon" aria-hidden="true"><use href="#i-shield"/></svg></div>
+                <div class="brand-name" translate="no">Sarkari<span>Scam Detector</span></div>
+            </div>
+            <p class="nav-label">YOUR WORKSPACE</p>
+            <nav class="sidebar-nav" aria-label="Workspace navigation">
+                <button class="nav-btn active" data-tab="checker-tab" aria-pressed="true">
+                    <svg class="icon" aria-hidden="true"><use href="#i-message"/></svg> Message Checker
+                </button>
+                <button class="nav-btn" data-tab="batch-tab" aria-pressed="false">
+                    <svg class="icon" aria-hidden="true"><use href="#i-folder"/></svg> Batch CSV Classifier
+                </button>
+                <button class="nav-btn" data-tab="analytics-tab" id="nav-analytics-btn" aria-pressed="false">
+                    <svg class="icon" aria-hidden="true"><use href="#i-chart"/></svg> Threat Intelligence
+                </button>
+                <button class="nav-btn" data-tab="pib-tab" aria-pressed="false">
+                    <svg class="icon" aria-hidden="true"><use href="#i-book"/></svg> Scam Awareness
+                </button>
+            </nav>
+            <div class="sidebar-note">
+                <svg class="icon" aria-hidden="true"><use href="#i-shield"/></svg>
+                <h3>A pause can protect you.</h3>
+                <p>Check the message. Verify the source. Then decide.</p>
+                <button class="sidebar-learn" data-open-tab="pib-tab">Learn the warning signs <svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg></button>
+            </div>
+            <div class="sidebar-footer">
+                <span class="edition-label"><span></span> Research edition</span>
+                <p class="copyright">Built for a more aware digital India.</p>
+            </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="main-content" id="main-workspace" tabindex="-1">
+            <!-- Top Header -->
+            <header class="main-header">
+                <div class="header-title">
+                    <p class="breadcrumb">Workspace <span aria-hidden="true">/</span> Message security</p>
+                    <h1 id="page-heading">Message Checker</h1>
+                </div>
+                <div class="api-status-badge">
+                    <span class="status-dot" id="status-dot"></span>
+                    <span class="status-text" id="status-text" role="status">Connecting to API…</span>
+                </div>
+            </header>
+
+            <!-- Active Workspace Window -->
+            <div class="content-body">
+                
+                <!-- Tab 1: Real-time Message Checker -->
+                <section id="checker-tab" class="tab-content active">
+                    <div class="workspace-intro">
+                        <div>
+                            <p class="eyebrow"><span></span> A LITTLE CAUTION. A LOT MORE CLARITY.</p>
+                            <h2>Before you trust it,<br><span>give it a second look.</span></h2>
+                            <p>Suspicious scheme message? Spot the warning signs before<br class="desktop-break"> you click, share, or send money.</p>
+                        </div>
+                        <div class="language-note"><span class="language-symbol" aria-hidden="true">अ / A</span><div>Made for your messages<span>Hindi · Hinglish · English</span></div></div>
+                    </div>
+                    <div class="grid-layout">
+                        <!-- Message Input Card -->
+                        <div class="glass-card col-left message-card">
+                            <div class="card-heading"><div><p class="section-kicker">01 / THE MESSAGE</p><h3 class="card-title">What landed in your inbox?</h3></div><span class="card-icon"><svg class="icon" aria-hidden="true"><use href="#i-message"/></svg></span></div>
+                            <p class="card-desc">Paste the SMS or WhatsApp message you want to check.</p>
+                            <div class="input-wrapper">
+                                <label class="sr-only" for="message-input">Message to analyze</label>
+                                <textarea id="message-input" name="message" autocomplete="off" maxlength="10000" aria-describedby="checker-error message-privacy" placeholder="Paste your message here…&#10;&#10;For example: ‘Congratulations! You have been selected for a government grant. Pay a small fee to claim…’"></textarea>
+                                <div class="input-meta"><span>SMS, WhatsApp, or forwarded text</span><span class="char-counter"><span id="char-count">0</span> / 10,000</span></div>
+                            </div>
+                            <div class="sample-row"><span>Try an example</span><button class="sample-btn" data-example="prize">Prize offer <span aria-hidden="true">↗</span></button><button class="sample-btn" data-example="hindi">हिंदी संदेश <span aria-hidden="true">↗</span></button></div>
+                            <div class="action-row">
+                                <button id="clear-btn" class="secondary-btn">Clear Text</button>
+                                <button id="analyze-btn" class="primary-btn">Analyze Message</button>
+                            </div>
+                            <p id="checker-error" class="feedback error-text" role="alert"></p>
+                            <p class="privacy-note" id="message-privacy"><svg class="icon" aria-hidden="true"><use href="#i-lock"/></svg> Your message text is never saved in analytics.</p>
+                        </div>
+
+                        <!-- Result Display Card -->
+                        <div class="glass-card col-right result-card loading-skeleton" id="result-container">
+                            <div class="result-heading"><p class="section-kicker">02 / THE SECOND LOOK</p><span class="neutral-badge">MESSAGE INSIGHTS</span></div>
+                            <div class="empty-state" id="result-empty-state">
+                                <div class="scan-illustration" aria-hidden="true"><div class="scan-orbit"></div><div class="scan-paper"><span></span><span></span><span></span><div class="scan-shield"><svg class="icon"><use href="#i-shield"/></svg></div></div><span class="scan-spark">✧</span></div>
+                                <h3>A little clarity is on its way.</h3>
+                                <p>Add a message and we’ll look for suspicious links, pressure tactics, and common scam cues.</p>
+                                <div class="empty-caption"><span></span> Your analysis will appear here</div>
+                            </div>
+                            <div class="result-details hidden" id="result-details" aria-live="polite">
+                                <h3 class="card-title">Your Message Assessment</h3>
+                                
+                                <div class="risk-gauge-container">
+                                    <svg class="risk-gauge" viewBox="0 0 100 100" role="img" aria-label="Estimated scam score">
+                                        <circle class="gauge-bg" cx="50" cy="50" r="45"></circle>
+                                        <circle class="gauge-fill" id="gauge-fill-circle" cx="50" cy="50" r="45" stroke-dasharray="283" stroke-dashoffset="283"></circle>
+                                        <text class="gauge-text-val" id="gauge-val" x="50" y="52">0%</text>
+                                    </svg>
+                                    <div class="risk-verdict" id="risk-verdict">Legit</div>
+                                    <p class="feedback">Scam score · model estimate</p>
+                                </div>
+
+                                <div class="metrics-grid">
+                                    <div class="metric-item">
+                                        <span class="metric-label">Classification</span>
+                                        <span class="metric-val" id="result-classification">Legit</span>
+                                    </div>
+                                    <div class="metric-item">
+                                        <span class="metric-label">Category Confidence</span>
+                                        <span class="metric-val" id="result-confidence">0%</span>
+                                    </div>
+                                </div>
+                                <p id="result-note" class="feedback result-note"></p>
+
+                                <div class="explainable-cues" id="explainable-cues-section">
+                                    <h4>What caught our attention</h4>
+                                    <div class="trigger-tags" id="trigger-tags">
+                                        <!-- Tags will be dynamically populated -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="research-note"><svg class="icon" aria-hidden="true"><use href="#i-info"/></svg><p><strong>A helpful signal, not a final verdict.</strong> This research prototype is trained mainly on synthetic examples. A likely legitimate result is not proof of safety. Always verify independently.</p></div>
+                    <div class="safety-heading"><h3>A few signs worth a second look</h3><button class="text-btn" data-open-tab="pib-tab">Explore scam awareness <svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg></button></div>
+                    <div class="safety-grid">
+                        <article class="safety-tip"><span class="tip-icon peach"><svg class="icon" aria-hidden="true"><use href="#i-coins"/></svg></span><div><h4>Pay first, receive later</h4><p>An advance fee to unlock a prize or benefit deserves a closer look.</p></div></article>
+                        <article class="safety-tip"><span class="tip-icon lilac"><svg class="icon" aria-hidden="true"><use href="#i-link"/></svg></span><div><h4>A link that looks almost right</h4><p>A familiar logo doesn’t make a website official. Check the full address.</p></div></article>
+                        <article class="safety-tip"><span class="tip-icon mint"><svg class="icon" aria-hidden="true"><use href="#i-clock"/></svg></span><div><h4>“Act now. Last chance.”</h4><p>Pressure to act quickly is a reason to slow down and verify the claim.</p></div></article>
+                    </div>
+                </section>
+
+                <!-- Tab 2: Batch CSV Classifier -->
+                <section id="batch-tab" class="tab-content">
+                    <div class="glass-card">
+                        <h2 class="card-title">Batch Message Processing</h2>
+                        <p class="card-desc">Review multiple messages in one go. Upload a CSV with a message, text, or msg column.</p>
+                        
+                        <div class="dropzone" id="csv-dropzone" role="button" tabindex="0" aria-label="Upload CSV messages" aria-disabled="false">
+                            <input type="file" id="csv-file-input" accept=".csv" class="hidden-input" aria-label="CSV message file">
+                            <div class="dropzone-content">
+                                <span class="dropzone-icon"><svg class="icon" aria-hidden="true"><use href="#i-upload"/></svg></span>
+                                <h3>Drag & drop your CSV file here</h3>
+                                <p>or click to browse from files</p>
+                                <span class="file-hint">Up to 1,000 rows, 2 MB; requires a message, text, or msg column</span>
+                            </div>
+                        </div>
+                        <p id="batch-error" class="feedback error-text" role="alert"></p>
+
+                        <div id="batch-results-summary" class="hidden">
+                            <div class="batch-summary-grid">
+                                <div class="summary-card text-center">
+                                    <span class="summary-num" id="batch-total">0</span>
+                                    <span class="summary-lbl">Total Processed</span>
+                                </div>
+                                <div class="summary-card text-center accent-scam">
+                                    <span class="summary-num" id="batch-scam">0</span>
+                                    <span class="summary-lbl">Scams Detected</span>
+                                </div>
+                                <div class="summary-card text-center accent-legit">
+                                    <span class="summary-num" id="batch-legit">0</span>
+                                    <span class="summary-lbl">Legit Messages</span>
+                                </div>
+                                <div class="summary-card text-center">
+                                    <span class="summary-num" id="batch-uncertain">0</span>
+                                    <span class="summary-lbl">Needs Verification</span>
+                                </div>
+                                <div class="summary-card text-center">
+                                    <span class="summary-num" id="batch-ratio">0%</span>
+                                    <span class="summary-lbl">Scam Ratio</span>
+                                </div>
+                            </div>
+
+                            <div class="batch-table-actions">
+                                <h3>Classification Review (Top Results)</h3>
+                                <button id="download-csv-btn" class="primary-btn sm-btn">Download Classified CSV</button>
+                            </div>
+
+                            <div class="table-wrapper">
+                                <table class="results-table" id="batch-results-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Message Snippet</th>
+                                            <th>Verdict</th>
+                                            <th>Scam Category</th>
+                                            <th>Confidence</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="batch-table-body">
+                                        <!-- Populated dynamically -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Tab 3: Threat Intelligence Dashboard -->
+                <section id="analytics-tab" class="tab-content">
+                    <div class="batch-table-actions">
+                        <p class="card-desc" id="analytics-storage-note">Only classification metadata is retained; message text stays out of analytics.</p>
+                        <button id="refresh-analytics-btn" class="secondary-btn sm-btn">Refresh</button>
+                    </div>
+                    <p id="analytics-error" class="feedback error-text" role="alert"></p>
+                    <div class="analytics-metrics-grid">
+                        <div class="summary-card">
+                            <h3>Total Checks</h3>
+                            <span class="metric-val" id="ana-total-checks">0</span>
+                            <p class="metric-desc">Messages processed across all queries</p>
+                        </div>
+                        <div class="summary-card text-scam">
+                            <h3>Fraudulent Schemes Flagged</h3>
+                            <span class="metric-val" id="ana-scam-count">0</span>
+                            <p class="metric-desc">Messages classified as likely scams</p>
+                        </div>
+                        <div class="summary-card text-legit">
+                            <h3>Legitimate Messages</h3>
+                            <span class="metric-val" id="ana-legit-count">0</span>
+                            <p class="metric-desc">Messages classified as likely legitimate</p>
+                        </div>
+                        <div class="summary-card">
+                            <h3>Needs Verification</h3>
+                            <span class="metric-val" id="ana-uncertain-count">0</span>
+                            <p class="metric-desc">Inconclusive or unsupported messages</p>
+                        </div>
+                        <div class="summary-card">
+                            <h3>System Scam Ratio</h3>
+                            <span class="metric-val" id="ana-scam-ratio">0.0%</span>
+                            <p class="metric-desc">Proportion of scanned messages flagged</p>
+                        </div>
+                    </div>
+                    <p id="charts-status" class="feedback" role="status"></p>
+
+                    <div class="charts-layout">
+                        <!-- Chart Card 1 -->
+                        <div class="glass-card">
+                            <h3 class="card-title">Verdict Distribution</h3>
+                            <div class="chart-wrapper">
+                                <canvas id="verdict-pie-chart"></canvas>
+                            </div>
+                        </div>
+
+                        <!-- Chart Card 2 -->
+                        <div class="glass-card">
+                            <h3 class="card-title">Scam Types Breakdown</h3>
+                            <div class="chart-wrapper">
+                                <canvas id="category-bar-chart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Recent Logs Card -->
+                    <div class="glass-card recent-logs-card">
+                        <h3 class="card-title">Recent Results</h3>
+                        <p class="card-desc">The latest ten classifications, without submitted message text</p>
+                        <div class="logs-container" id="recent-logs-feed">
+                            <div class="empty-state">No requests recorded yet.</div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Tab 4: PIB Fact-Check Alerts -->
+                <section id="pib-tab" class="tab-content">
+                    <div class="glass-card pib-intro">
+                        <div class="pib-badge">ILLUSTRATIVE EXAMPLES</div>
+                        <h2 class="card-title">Recognize Common Scam Patterns</h2>
+                        <p class="card-desc">These examples are educational, not live PIB advisories. Verify a scheme through independently found official contact details before sharing information or paying a fee.</p>
+                    </div>
+
+                    <div class="pib-alerts-grid">
+                        <div class="pib-alert-card scam">
+                            <div class="pib-header">
+                                <span class="pib-tag scam-tag">FAKE SCHEME</span>
+                                <span class="pib-ref">Example 1</span>
+                            </div>
+                            <h3>PM Fasal Bima Yojana Processing Fee Claim</h3>
+                            <p class="pib-detail"><strong>The Claim:</strong> A WhatsApp message offering a compensation payout of ₹2,50,000 under the PM Fasal Bima Yojana, asking for ₹2,500 registration fee to process it.</p>
+                            <div class="pib-fact">
+                                <strong>What to check:</strong> An unsolicited payout paired with an advance fee is a warning sign. Find the scheme independently and confirm eligibility, fees, and the payment process before acting.
+                            </div>
+                        </div>
+
+                        <div class="pib-alert-card scam">
+                            <div class="pib-header">
+                                <span class="pib-tag scam-tag">FAKE NAUKRI</span>
+                                <span class="pib-ref">Example 2</span>
+                            </div>
+                            <h3>Digital India Recruitment Cell Vacancies</h3>
+                            <p class="pib-detail"><strong>The Claim:</strong> SMS claiming 500+ job vacancies in Digital India Cell without interview. Requires application fee payment on unofficial domains like `pm-yojana-verify.co`.</p>
+                            <div class="pib-fact">
+                                <strong>What to check:</strong> Locate the recruiting organization's published vacancy notice independently. Compare the application address, fee, and selection process before sending money or documents.
+                            </div>
+                        </div>
+
+                        <div class="pib-alert-card scam">
+                            <div class="pib-header">
+                                <span class="pib-tag scam-tag">FAKE LOTTERY</span>
+                                <span class="pib-ref">Example 3</span>
+                            </div>
+                            <h3>Sarkari / KBC Lucky Draw Bonus</h3>
+                            <p class="pib-detail"><strong>The Claim:</strong> WhatsApp message claiming you have won a Sarkari lucky draw of ₹5,00,000. Urges clicking a link and sending details to claim.</p>
+                            <div class="pib-fact">
+                                <strong>What to check:</strong> An unexpected prize asking for payment or sensitive information deserves independent verification. Do not share an OTP or banking credentials to claim a prize.
+                            </div>
+                        </div>
+
+                        <div class="pib-alert-card safety">
+                            <div class="pib-header">
+                                <span class="pib-tag safety-tag">ADVISORY</span>
+                                <span class="pib-ref">Example 4</span>
+                            </div>
+                            <h3>How to spot a Fake Government website?</h3>
+                            <p class="pib-detail">Fraudsters clone layouts of official pages (e.g. PM Kisan, Skill India) and host them on extensions like `.xyz`, `.co`, `.info`, `.online`, `.org.in`.</p>
+                            <div class="pib-fact">
+                                <strong>What to check:</strong> Inspect the full hostname. <code>scheme.gov.in.example.com</code> belongs to <code>example.com</code>. A government-style domain or familiar logo alone does not verify a message; find the service independently.
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+            </div>
+        </main>
+    </div>
+
+    <!-- Custom JS -->
+    <script src="/static/js/app.js"></script>
+</body>
+</html>

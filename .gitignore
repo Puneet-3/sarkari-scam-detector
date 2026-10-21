@@ -1,0 +1,25 @@
+backend/.venv/
+**/__pycache__/
+*.py[cod]
+backend/analytics.json
+backend/analytics.json.lock
+backend/analytics.json.*.tmp
+backend/analytics.json.private-backup
+node_modules/
+test-results/
+playwright-report/
+.vercel/
+
+.vercel
+.env*
+
+# Local history, obsolete model copies, and downloaded source archives.
+**/analytics.json*
+backend/backend/
+data/external/
+
+# Local workstation notes and generated deployment manifests.
+memory.md
+*.docx
+reports/vercel-upload-manifest.json
+reports/vercel-browser-check.json

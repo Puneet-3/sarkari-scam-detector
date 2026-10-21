@@ -1,0 +1,58 @@
+{
+  "benchmark": "UCI SMS Spam Collection: independent real-English-SMS spam transfer test",
+  "source_url": "https://archive.ics.uci.edu/dataset/228/sms+spam+collection",
+  "doi": "10.24432/C5CC84",
+  "license": "CC-BY-4.0",
+  "benchmark_sha256": "7d039a24a6083ed9ef0f806ebad56bbb976e3aeb8de05669173bfdc4996c239d",
+  "model_sha256": "03f72b9e346732264cec6598ff7d8bd65aa080885c026b5da5a5626f28a69f9a",
+  "vectorizer_sha256": "2829d7a59d1baed184e347a80216f652accdf94dc5b6e8011ab0403468b51148",
+  "raw_rows": 5574,
+  "evaluated_rows": 5129,
+  "ham_rows": 4501,
+  "spam_rows": 628,
+  "excluded_training_overlap_rows": 0,
+  "excluded_duplicate_rows": 443,
+  "excluded_empty_normalized_rows": 2,
+  "excluded_conflicting_normalized_groups": 0,
+  "training_or_tuning_on_this_benchmark": false,
+  "confusion_matrix": {
+    "ham": {
+      "legit": 1372,
+      "scam": 0,
+      "uncertain": 3129
+    },
+    "spam": {
+      "legit": 375,
+      "scam": 8,
+      "uncertain": 245
+    }
+  },
+  "coverage": 0.3421719633456814,
+  "accuracy_on_classified_rows": 0.7863247863247863,
+  "correct_fraction_of_all_rows": 0.26905829596412556,
+  "spam_detection_recall": 0.012738853503184714,
+  "spam_detection_recall_wilson_95": [
+    0.006468803514664678,
+    0.024933787346858378
+  ],
+  "spam_misclassified_legitimate_fraction": 0.5971337579617835,
+  "ham_false_alarm_rate": 0.0,
+  "ham_false_alarm_wilson_95": [
+    0,
+    0.0008527400699468271
+  ],
+  "uncertainty_reasons": {
+    "The message is too short or unfamiliar for a reliable prediction.": 3073,
+    "The model is uncertain. Verify the claim through an independently found official source.": 194,
+    "The message contains an unverified link. Confirm its destination independently.": 101,
+    "This message does not contain enough familiar language for a reliable prediction.": 5,
+    "This writing system is not supported by the current model. Verify the message independently.": 1
+  },
+  "limitations": [
+    "UCI labels indicate spam versus ham, not confirmed fraud versus genuine government schemes.",
+    "This is an out-of-domain transfer test on historical English SMS, not current Indian government-scam accuracy.",
+    "There are no native Hindi real-message examples in this benchmark.",
+    "Abstentions are shown explicitly and count as undetected spam when computing recall.",
+    "Do not compare selective accuracy alone; coverage and false alarms are required context."
+  ]
+}

@@ -1,0 +1,117 @@
+{
+  "preprocess_version": 3,
+  "source_rows": 2010,
+  "train_rows": 904,
+  "test_rows": 227,
+  "normalized_overlap": 0,
+  "random_state": 42,
+  "best_parameters": {
+    "classifier__C": 20.0
+  },
+  "split_role": "development validation; inspected during refinement, not an independent real-world test",
+  "multiclass_accuracy": 0.9383259911894273,
+  "binary_accuracy": 0.986784140969163,
+  "classification_report": {
+    "fake_covid_health": {
+      "precision": 0.7272727272727273,
+      "recall": 0.8,
+      "f1-score": 0.7619047619047619,
+      "support": 10.0
+    },
+    "fake_job_offer": {
+      "precision": 1.0,
+      "recall": 0.9047619047619048,
+      "f1-score": 0.95,
+      "support": 21.0
+    },
+    "fake_kyc_aadhaar": {
+      "precision": 0.8125,
+      "recall": 0.8666666666666667,
+      "f1-score": 0.8387096774193549,
+      "support": 15.0
+    },
+    "fake_lottery_prize": {
+      "precision": 1.0,
+      "recall": 0.8823529411764706,
+      "f1-score": 0.9375,
+      "support": 17.0
+    },
+    "fake_money_transfer": {
+      "precision": 0.967741935483871,
+      "recall": 0.9375,
+      "f1-score": 0.9523809523809523,
+      "support": 32.0
+    },
+    "fake_other": {
+      "precision": 0.6666666666666666,
+      "recall": 0.8888888888888888,
+      "f1-score": 0.7619047619047619,
+      "support": 9.0
+    },
+    "fake_subsidy_ration": {
+      "precision": 0.8888888888888888,
+      "recall": 0.8,
+      "f1-score": 0.8421052631578947,
+      "support": 10.0
+    },
+    "legit": {
+      "precision": 0.9824561403508771,
+      "recall": 0.9911504424778761,
+      "f1-score": 0.986784140969163,
+      "support": 113.0
+    },
+    "accuracy": 0.9383259911894273,
+    "macro avg": {
+      "precision": 0.8806907948328788,
+      "recall": 0.8839151054964759,
+      "f1-score": 0.8789111947171111,
+      "support": 227.0
+    },
+    "weighted avg": {
+      "precision": 0.944204413906384,
+      "recall": 0.9383259911894273,
+      "f1-score": 0.9398598531928003,
+      "support": 227.0
+    }
+  },
+  "confidence_threshold": 0.5,
+  "coverage": 0.933920704845815,
+  "accuracy_on_confident_predictions": 0.9858490566037735,
+  "supported_scripts": [
+    "latin",
+    "devanagari"
+  ],
+  "training_source_counts": {
+    "original_synthetic": 1800,
+    "ridham115_hindi_synthetic": 126,
+    "authored_hindi_synthetic": 84
+  },
+  "per_script": {
+    "devanagari": {
+      "train_rows": 168,
+      "test_rows": 42,
+      "accuracy": 0.6666666666666666,
+      "binary_accuracy": 0.9285714285714286,
+      "confidence_threshold_coverage": 0.6428571428571429
+    },
+    "latin": {
+      "train_rows": 736,
+      "test_rows": 185,
+      "accuracy": 1.0,
+      "binary_accuracy": 1.0,
+      "confidence_threshold_coverage": 1.0
+    }
+  },
+  "limitations": "Internal holdout uses synthetic data, including authored and LLM-generated Hindi. This does not establish real-world government-scam accuracy. Normalized duplicates removed; related templates may still occur in both splits. Probabilities are model scores, not independently calibrated risk estimates. See external_evaluation.json for a separate real-English-SMS spam transfer test.",
+  "versions": {
+    "scikit-learn": "1.9.0",
+    "numpy": "2.5.1",
+    "scipy": "1.18.0",
+    "joblib": "1.5.3"
+  },
+  "training_input_sha256": {
+    "dataset_final.csv": "2b8089312739b3df89615b48a3abf312c9a2eca759030a9635ea880784d522f1",
+    "data\\hindi_scheme_seeds.json": "5e4916719e9269c69763820dc35dd87aef67c8006f706a8c7c96a1d4dbfb57cf",
+    "data\\external\\indian_scam_synthetic.csv": "45bde5f156a1a42698bab209e32bcd41b3639013d772f644cc3208ed39fb61e2"
+  }
+}

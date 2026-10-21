@@ -1,0 +1,31 @@
+{
+  "accessed_on": "2026-10-21",
+  "uci_uncompressed_sha256": "7d039a24a6083ed9ef0f806ebad56bbb976e3aeb8de05669173bfdc4996c239d",
+  "downloads": [
+    {
+      "path": "indian_scam_synthetic.csv",
+      "url": "https://huggingface.co/datasets/Ridham115/indian-scam-sms-synthetic-audited/resolve/45e92c38ba20e973ef3ff5d1893a0a710f622018/data/synthetic_audited.csv",
+      "license": "CC-BY-4.0",
+      "role": "training supplement: only 126 native-Hindi gpt-oss generator rows",
+      "sha256": "45bde5f156a1a42698bab209e32bcd41b3639013d772f644cc3208ed39fb61e2"
+    },
+    {
+      "path": "indian_scam_dataset_card.md",
+      "url": "https://huggingface.co/datasets/Ridham115/indian-scam-sms-synthetic-audited/resolve/45e92c38ba20e973ef3ff5d1893a0a710f622018/README.md",
+      "license": "CC-BY-4.0",
+      "sha256": "bc661d6cbf9318a00786f34062f640eb24333644f2941b03375c22f27c755c7c"
+    },
+    {
+      "path": "uci_sms_spam.zip",
+      "url": "https://archive.ics.uci.edu/static/public/228/sms+spam+collection.zip",
+      "license": "CC-BY-4.0",
+      "role": "external evaluation only; historical real English SMS; spam is not fraud",
+      "sha256": "1587ea43e58e82b14ff1f5425c88e17f8496bfcdb67a583dbff9eefaf9963ce3"
+    }
+  ],
+  "authored_hindi": {
+    "path": "data/hindi_scheme_seeds.json",
+    "rows": 84,
+    "provenance": "AI-authored synthetic scenario messages; not native-speaker reviewed or real received traffic"
+  }
+}

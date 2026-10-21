@@ -1,0 +1,11 @@
+{
+  "name": "scam-detector-checks",
+  "private": true,
+  "scripts": {
+    "test:unit": "node --test frontend/js/app.test.cjs",
+    "test:browser": "playwright test"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.64.1"
+  }
+}
